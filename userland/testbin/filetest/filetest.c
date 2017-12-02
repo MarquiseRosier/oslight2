@@ -63,13 +63,14 @@ main(int argc, char *argv[])
 		errx(1, "Usage: filetest <filename>");
 	}
 
-	fd = open(file, O_WRONLY|O_CREAT|O_TRUNC, 0664);
-	if (fd<0) {
-		err(1, "%s: open for write", file);
-	}
-
+	fd = open(file, O_WRONLY|O_CREAT|O_TRUNC, 0664);	
+	{
+		if(fd <0)
+			err(1, "%s Open File", file);
+	}	
 
 	rv = write(fd, writebuf, 40);
+	printf("LEFT OVER: %d", rv);
 	if (rv<0) {
 		err(1, "%s: write", file);
 	}
@@ -85,6 +86,7 @@ main(int argc, char *argv[])
 	}
 
 	rv = read(fd, readbuf, 40);
+	printf("%s", readbuf);
 	if (rv<0) {
 		err(1, "%s: read", file);
 	}
